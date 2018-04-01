@@ -16,12 +16,16 @@ module Api
           ingredients: ActiveModel::Serializer::CollectionSerializer.new(ingredients, each_serializer: IngredientSerializer)
         }
       end
+      def show
+        render json: @meal, serializer: MealSerializer, adapter: :json
+      end
       
       def create
         meal = Meal.new(meal_params)
 
         if meal.save
-            render json: { status: 'SUCCESS',message: 'Plato Creado',data:meal},status: :ok
+          render json: meal, serializer: MealSerializer, adapter: :json
+            #render json: { status: 'SUCCESS',message: 'Plato Creado',data:meal},status: :ok
         else
             render json: { status: 'ERROR',message: 'No se pudo crear el plato',data:meal},status: :unprocessable_entity
         end
@@ -33,7 +37,8 @@ module Api
         @meal.recipes.delete_all
 
         if @meal.update(meal_params)
-            render json: { status: 'SUCCESS',message: 'Plato Editado',data:@meal},status: :ok
+            #render json: { status: 'SUCCESS',message: 'Plato Editado',data:@meal},status: :ok
+            render json: @meal, serializer: MealSerializer, adapter: :json
         else
             render json: { status: 'ERROR',message: 'No se pudo Eitar los datos del plato',data:@meal},status: :unprocessable_entity
         end
