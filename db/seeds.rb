@@ -8,21 +8,29 @@
 Recipe.destroy_all
 Meal.destroy_all
 Ingredient.destroy_all
+User.destroy_all
+InvoiceNumber.destroy_all
+OrderNumber.destroy_all
 
 
+order= OrderNumber.create([order_number:0,next_order_number:1])
+invoice= InvoiceNumber.create([{invoice_number:0, next_invoice_number:1}])
+user= User.create([{username:'frijo45',email:'frijo45@gmail.com',role:'Admin',password:'12345678'}])
 arroz = Ingredient.create([{name: 'Arroz',quantity: 5.00,cost_price: 2000.00,unit_type: 'KG'}])
 frijoles =Ingredient.create!([{name: 'Frijoles',quantity: 4.00,cost_price: 1500.00,unit_type: 'KG'}])
 tomates= Ingredient.create!([{name: 'Tomate',quantity: 2.00,cost_price: 2500.00,unit_type: 'KG'}])
 papaya= Ingredient.create!([{name: 'Papaya',quantity: 1.00,cost_price: 500.00,unit_type: 'Uni'}])
 leche = Ingredient.create!([{name: 'Leche',quantity: 1.00,cost_price: 800.00,unit_type: 'KG'}])
+filet = Ingredient.create!([{name: 'Filet Tila',quantity: 10.00,cost_price: 1800.00,unit_type: 'Uni'}])
+filetP = Ingredient.create!([{name: 'Filet Pollo',quantity: 20.00,cost_price: 1300.00,unit_type: 'Uni'}])
+
 p "Se crearon  #{Ingredient.count} Ingredientes"
 
-arrozyfrijoles = Meal.create([{name: 'Arroz y Frijoles',meal_type: 'Main',meal_cost: 900.00,sell_price: 1500.00,image: "aqui debe ir una imagen",recipe_description:' Descripcion de la receta para Arroz y Frijoles'}])
-
-arrozytomate = Meal.create!([{name: 'Arroz y Tomate',meal_type: 'Main',meal_cost: 1500.00,sell_price: 2500.00,image: "aqui debe ir una imagen",recipe_description:' Descripcion de la receta para Arroz y Tomate'}])
-batidodepapaya = Meal.create!([{name: 'batido de Papaya',meal_type: 'MilkShake',meal_cost: 1500.00,sell_price: 2500.00,image: "aqui debe ir una imagen",recipe_description:' Descripcion de la receta para batido de papaya '}])
+arrozyfrijoles = Meal.create([{name: 'Arroz y Frijoles',meal_type: 'Main',meal_cost: 900.00,sell_price: 1500.00,image: "aqui debe ir una imagen",status:"active",recipe_description:' Descripcion de la receta para Arroz y Frijoles'}])
+arrozytomate = Meal.create!([{name: 'Arroz y Tomate',meal_type: 'Main',meal_cost: 1500.00,sell_price: 2500.00,image: "aqui debe ir una imagen",status:"active",recipe_description:' Descripcion de la receta para Arroz y Tomate'}])
+batidodepapaya = Meal.create!([{name: 'batido de Papaya',meal_type: 'MilkShake',meal_cost: 1500.00,sell_price: 2500.00,image: "aqui debe ir una imagen",status:"active",recipe_description:' Descripcion de la receta para batido de papaya '}])
 
 p "Se crearon  #{Meal.count} Comidas"
 
-recetas = Recipe.create!([{ingredient_id: Ingredient.first.id,meal_id:Meal.first.id,quantity:2},{ingredient_id:Ingredient.second.id,meal_id:Meal.first.id,quantity:1},{ingredient_id:Ingredient.first.id,meal_id:Meal.second.id,quantity:2},{ingredient_id:Ingredient.third.id,meal_id:Meal.second.id,quantity:1},{ingredient_id:Ingredient.fourth.id,meal_id:Meal.third.id,quantity:1},{ingredient_id:Ingredient.fifth.id,meal_id:Meal.third.id,quantity:4}])
-p "Se crearon las recetas de  las comidas tambien"
+#recetas = Recipe.create!([{ingredient_id: Ingredient.first.id,meal_id:Meal.first.id,quantity:2},{ingredient_id:Ingredient.second.id,meal_id:Meal.first.id,quantity:1},{ingredient_id:Ingredient.first.id,meal_id:Meal.second.id,quantity:2},{ingredient_id:Ingredient.third.id,meal_id:Meal.second.id,quantity:1},{ingredient_id:Ingredient.fourth.id,meal_id:Meal.third.id,quantity:1},{ingredient_id:Ingredient.fifth.id,meal_id:Meal.third.id,quantity:4}])
+#p "Se crearon las recetas de  las comidas tambien"

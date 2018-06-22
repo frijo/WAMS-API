@@ -2,6 +2,8 @@ module Api
   module V1
     class IngredientsController < ApplicationController
         before_action :set_ingredient, only: [ :show,:update, :destroy]
+        before_action :authenticate_user,  only: [:create,:update]
+        before_action :authorize_as_admin, only: [:destroy]
         def index
           ingredients = Ingredient.all
           #render json: ingredients
@@ -19,25 +21,14 @@ module Api
           ingredient = Ingredient.new(ingredient_params)
 
             if ingredient.save             
-               #render json: ingredient, status: 201
-              # render json: ingredient, each_serializer: IngredientSerializer, root: false
-               #render json: { status: 'SUCCESS',message: 'Ingrediente Creado',data:ingredient},status: :ok
-                # render json: {
-                #    ingredient: ActiveModelSerializers::SerializableResource.new(ingredient).as_json
-                # }
-                render json: ingredient, serializer: IngredientSerializer, adapter: :json
-              
-            
+               render json: ingredient, serializer: IngredientSerializer, adapter: :json
             else              
-              # render json: ingredient.errors, status: :unprocessable_entity
               render json: { status: 'ERROR',message: 'Ingrediente no se pudo crear',data:ingredient.errors},status: :unprocessable_entity
             end          
         end
 
         def update
           if @ingredient.update(ingredient_params)
-            # render json: @ingredient, status: 201
-            #render json: { status: 'SUCCESS',message: 'Ingrediente Editado',data:@ingredient},status: :ok  
             render json: @ingredient, serializer: IngredientSerializer, adapter: :json
           else
             render json: @ingredient.errors, status: :unprocessable_entity
@@ -48,7 +39,6 @@ module Api
         # DELETE /ingredients/1.json
         def destroy
             @ingredient.destroy
-            # render json:@ingredient,status: 201,
             render json: @ingredient, serializer: IngredientSerializer, adapter: :json  
         end
 
@@ -57,7 +47,7 @@ module Api
           def set_ingredient
             @ingredient = Ingredient.find(params[:id])
           end
-          # Never trust parameters from the scary internet, only allow the white list through.
+          #Never trust parameters from the scary internet, only allow the white list through.
           def ingredient_params
             params.require(:ingredient).permit(:name, :quantity, :avaible, :cost_price, :unit_type)       
           end

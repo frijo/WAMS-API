@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  meal: one
+  order: one
+  quantity: 1.5
+  total: 1.5
+
+two:
+  meal: two
+  order: two
+  quantity: 1.5
+  total: 1.5

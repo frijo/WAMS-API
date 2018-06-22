@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order_number: 1
+  order_date: 2018-05-09 17:09:07
+  client_name: MyString
+  client_phone: MyString
+  sales_taxes: 1.5
+  total_tax: 1.5
+  payment_type: MyString
+
+two:
+  order_number: 1
+  order_date: 2018-05-09 17:09:07
+  client_name: MyString
+  client_phone: MyString
+  sales_taxes: 1.5
+  total_tax: 1.5
+  payment_type: MyString

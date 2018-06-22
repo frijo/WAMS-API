@@ -2,30 +2,32 @@ module Api
   module V1
     class MealsController < ApplicationController
 
-      before_action :set_meal, only: [:show, :edit, :update, :destroy]
-
+      before_action :set_meal, only: [ :update, :destroy]
+       before_action :authenticate_user,  only: [:create,:update]
+        before_action :authorize_as_admin, only: [:destroy]
       def index
 
-        meals = Meal.all
+        meals = Meal.all.with_active_status
         ingredients = Ingredient.all
-        #response = {:meals=> meals,:ingredients=>ingredients}
-        #render json: meals, adapter: :json
-        #DE ESTA FORMA SE PUEDEN ENVIAR 2 OBJ JSON CON TODOS LOS DATOS CORRESPONDIENTES
+          
+          #DE ESTA FORMA SE PUEDEN ENVIAR 2 OBJ JSON CON TODOS LOS DATOS CORRESPONDIENTES
         render json: {
           meals: ActiveModel::Serializer::CollectionSerializer.new(meals, each_serializer: MealSerializer),
           ingredients: ActiveModel::Serializer::CollectionSerializer.new(ingredients, each_serializer: IngredientSerializer)
+          
         }
       end
       def show
+         @meal = Meal.find(params[:id])
         render json: @meal, serializer: MealSerializer, adapter: :json
       end
       
       def create
         meal = Meal.new(meal_params)
-
+        
         if meal.save
-          render json: meal, serializer: MealSerializer, adapter: :json
-            #render json: { status: 'SUCCESS',message: 'Plato Creado',data:meal},status: :ok
+          render json: meal, serializer: MealSerializer, adapter: :json,messages: 'Plato creado!!'
+          
         else
             render json: { status: 'ERROR',message: 'No se pudo crear el plato',data:meal},status: :unprocessable_entity
         end
@@ -56,7 +58,7 @@ module Api
         # Never trust parameters from the scary internet, only allow the white list through.
       def meal_params
           #params.require(:meal).permit(:name, :type_meal, :meal_cost, :sell_price, :image, :recipe_description,recipes_attributes:[{ingredient_ids:[]},:quantitys] )
-          params.required(:meal).permit(:name,:meal_type,:meal_cost,:sell_price,:image,:recipe_description, recipes_attributes:[:id,:quantity,:ingredient_id,:meal_id,:_destroy])
+          params.required(:meal).permit(:name,:meal_type,:meal_cost,:sell_price,:image,:recipe_description,:status, recipes_attributes:[:id,:quantity,:ingredient_id,:meal_id,:_destroy])
       end
 
     end
